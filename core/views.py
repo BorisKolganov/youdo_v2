@@ -1,9 +1,10 @@
 from django.contrib.auth import logout, login
 from django.core.urlresolvers import reverse_lazy
-from django.views.generic import TemplateView, RedirectView
+from django.views.generic import TemplateView, RedirectView, DetailView
 from django.views.generic.edit import FormView
 
 from core.forms import RegistrationForm, LoginForm
+from core.models import User
 
 
 class IndexView(TemplateView):
@@ -40,3 +41,8 @@ class LoginView(FormView):
         login(self.request, user)
         return super(LoginView, self).form_valid(form)
 
+
+class ProfileView(DetailView):
+    model = User
+    context_object_name = 'user'
+    template_name = 'user_detail.html'
