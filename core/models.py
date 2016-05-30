@@ -9,9 +9,6 @@ from django.utils import timezone
 
 class UserManager(BaseUserManager):
     def _create_user(self, email, password, is_staff, is_superuser, is_active, **extra_fields):
-        if 'username' in extra_fields:
-            del extra_fields['username']
-
         email = self.normalize_email(email)
         user = self.model(email=email, is_staff=is_staff, is_superuser=is_superuser, is_active=is_active,
                            **extra_fields)
@@ -19,7 +16,7 @@ class UserManager(BaseUserManager):
         user.save(using=self._db)
         return user
 
-    def create_user(self, email, password=None, is_active=None, **extra_fields):
+    def create_user(self, email, password=None, is_active=True, **extra_fields):
         return self._create_user(email, password, False, False, is_active, **extra_fields)
 
     def create_superuser(self, email, password, **extra_fields):
@@ -27,15 +24,12 @@ class UserManager(BaseUserManager):
 
 
 class User(AbstractBaseUser, PermissionsMixin):
-    email = models.EmailField(unique=True, error_messages={
-        'required': u'Обязательное поле',
-        'invalid': u'Неверный email',
-        'unique': u'Пользователь с такой почтой уже существует',
-    })
+    email = models.EmailField(unique=True)
     first_name = models.CharField(max_length=100, verbose_name=u'Имя')
     last_name = models.CharField(max_length=100, verbose_name=u'Фамилия')
     phone = models.CharField(max_length=20, blank=True, verbose_name=u'Номер телефона')
 
+    avatar = models.ImageField(verbose_name=u'Аватарка', null=True, upload_to='avatars')
     is_staff = models.BooleanField(default=False, verbose_name=u'Персонал')
     is_active = models.BooleanField(default=False, verbose_name=u'Активирован')
     date_joined = models.DateTimeField(default=timezone.now, verbose_name=u'Дата регистрации')
@@ -43,7 +37,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['first_name', 'last_name']
 
-    object = UserManager()
+    objects = UserManager()
 
     class Meta:
         verbose_name = u'Пользователь'
