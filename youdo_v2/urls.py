@@ -7,4 +7,5 @@ admin.autodiscover()
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^', include('core.urls',  namespace='core')),
+    url(r'^', include('works.urls', namespace='works')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
