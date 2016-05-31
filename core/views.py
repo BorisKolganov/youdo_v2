@@ -1,6 +1,6 @@
 from django.contrib.auth import logout, login
 from django.core.urlresolvers import reverse_lazy
-from django.views.generic import TemplateView, RedirectView, DetailView
+from django.views.generic import RedirectView, DetailView, TemplateView
 from django.views.generic.edit import FormView
 
 from core.forms import RegistrationForm, LoginForm

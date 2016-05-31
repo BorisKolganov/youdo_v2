@@ -29,7 +29,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     last_name = models.CharField(max_length=100, verbose_name=u'Фамилия')
     phone = models.CharField(max_length=20, blank=True, verbose_name=u'Номер телефона')
 
-    avatar = models.ImageField(verbose_name=u'Аватарка', null=True, upload_to='avatars')
+    avatar = models.ImageField(verbose_name=u'Аватарка', null=True, upload_to='avatars', default='avatars/default.jpg')
     is_staff = models.BooleanField(default=False, verbose_name=u'Персонал')
     is_active = models.BooleanField(default=False, verbose_name=u'Активирован')
     date_joined = models.DateTimeField(default=timezone.now, verbose_name=u'Дата регистрации')
