@@ -12,7 +12,14 @@ class Employee(models.Model):
 
 class ServiceType(models.Model):
     name = models.CharField(max_length=250, verbose_name=u'Название')
-    users = models.ManyToManyField('core.User', verbose_name=u'Специалисты', blank=True)
+    users = models.ManyToManyField('works.Employee', verbose_name=u'Специалисты', blank=True)
+
+    class Meta:
+        verbose_name = u'Вид работы'
+        verbose_name_plural = u'Виды работ'
+
+    def __unicode__(self):
+        return self.name
 
 
 class Service(models.Model):

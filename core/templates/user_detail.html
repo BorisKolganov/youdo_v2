@@ -20,6 +20,17 @@
             </div>
         </div>
     </div>
+    <div class="row">
+    {% if request.user.id = user.id %}
+        Это ваш профиль<br />
+        {% if request.user.employee %}
+            У вас уже есть профиль исполнителя
+            <a class="btn btn-primary" href="{% url 'works:update_employee' request.user.employee.id %}">Изменить</a>
+        {% else %}
+            <a class="btn btn-primary" href="{% url 'works:create_employee' %}">Создать профиль исполнителя</a>
+        {% endif %}
+    {% endif %}
+    </div>
 
 
 {% endblock %}
