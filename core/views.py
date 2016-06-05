@@ -5,10 +5,16 @@ from django.views.generic.edit import FormView
 
 from core.forms import RegistrationForm, LoginForm
 from core.models import User
+from works.models import Service
 
 
 class IndexView(TemplateView):
     template_name = 'index.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(IndexView, self).get_context_data(**kwargs)
+        context['services'] = Service.objects.all()
+        return context
 
 
 class RegistrationView(FormView):

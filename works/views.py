@@ -4,10 +4,10 @@ from django.shortcuts import render
 
 # Create your views here.
 
-from django.views.generic import CreateView, UpdateView
+from django.views.generic import CreateView, UpdateView, DetailView
 
-from works.forms import EmployeeForm
-from works.models import Employee
+from works.forms import EmployeeForm, ServiceForm
+from works.models import Employee, Service
 
 
 class CreateEmployeeView(CreateView):
@@ -42,3 +42,20 @@ class UpdateEmployeeView(UpdateView):
         except Employee.DoesNotExist:
             return HttpResponseRedirect(reverse('core:index'))
         return super(UpdateEmployeeView, self).dispatch(request, *args, **kwargs)
+
+
+class CreateServiceView(CreateView):
+    model = Service
+    template_name = 'create_service.html'
+    form_class = ServiceForm
+    success_url = reverse_lazy('core:index')
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super(CreateServiceView, self).form_valid(form)
+
+
+class ServiceView(DetailView):
+    model = Service
+    template_name = 'service_detail.html'
+    context_object_name = 'service'

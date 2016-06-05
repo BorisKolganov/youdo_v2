@@ -1,7 +1,7 @@
 # coding=utf-8
 from django import forms
 
-from works.models import Employee, ServiceType
+from works.models import Employee, ServiceType, Service
 
 
 class EmployeeForm(forms.ModelForm):
@@ -33,3 +33,9 @@ class EmployeeForm(forms.ModelForm):
             self.save_m2m()
 
         return instance
+
+
+class ServiceForm(forms.ModelForm):
+    class Meta:
+        model = Service
+        fields = ['name', 'price', 'description', 'avatar', 'type']

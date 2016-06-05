@@ -1,1 +1,6 @@
 {% extends 'base.html' %}
+{% block content %}
+    {% for service in services %}
+        {{ service.name }}<br/>
+    {% endfor %}
+{% endblock %}
