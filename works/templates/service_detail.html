@@ -1,8 +1,15 @@
 {% extends 'base.html' %}
-{% block title %}{% endblock %}
+{% block title %}Инфо - {{ service.name }}{% endblock %}
 {% block content %}
-    {{ service.name }}<br/>
-    {{ service.description }}<br/>
-    {{ service.price }}<br/>
-
+    <div class="row">
+        <div class="col-lg-10 col-lg-offset-1">
+             <div class="thumbnail">
+                <img src="{{ service.avatar.url }}">
+                <div class="caption">
+                    <h3>{{ service.name }}</h3>
+                    <p>{{ service.description }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}

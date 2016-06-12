@@ -24,7 +24,7 @@ class ServiceType(models.Model):
 
 class Service(models.Model):
     user = models.ForeignKey('core.User', verbose_name=u'Пользователь')
-    employee = models.ForeignKey('works.Employee', verbose_name=u'Исполнитель', null=True)
+    employee = models.ForeignKey('works.Employee', verbose_name=u'Исполнитель', null=True, blank=True)
     name = models.CharField(max_length=250, verbose_name=u'Название')
     description = models.TextField(verbose_name=u'Описание')
     price = models.IntegerField(verbose_name=u'Оплата')

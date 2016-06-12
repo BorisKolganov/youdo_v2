@@ -1,6 +1,6 @@
 from django.contrib.auth import logout, login
 from django.core.urlresolvers import reverse_lazy
-from django.views.generic import RedirectView, DetailView, TemplateView
+from django.views.generic import RedirectView, DetailView, TemplateView, ListView
 from django.views.generic.edit import FormView
 
 from core.forms import RegistrationForm, LoginForm
@@ -8,13 +8,16 @@ from core.models import User
 from works.models import Service
 
 
-class IndexView(TemplateView):
+class IndexView(ListView):
     template_name = 'index.html'
+    paginate_by = 9
+    model = Service
+    context_object_name = 'services'
 
-    def get_context_data(self, **kwargs):
-        context = super(IndexView, self).get_context_data(**kwargs)
-        context['services'] = Service.objects.all()
-        return context
+    # def get_context_data(self, **kwargs):
+    #     context = super(IndexView, self).get_context_data(**kwargs)
+    #     context['services'] = Service.objects.all()
+    #     return context
 
 
 class RegistrationView(FormView):
