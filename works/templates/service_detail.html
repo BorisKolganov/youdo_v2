@@ -1,6 +1,13 @@
 {% extends 'base.html' %}
 {% block title %}Инфо - {{ service.name }}{% endblock %}
 {% block content %}
+    {% if request.user = service.user %}
+        <div class="row">
+            <div class="col-lg-4 col-lg-offset-4">
+                <h4>Это ваш запрос на услугу</h4>
+            </div>
+        </div>
+    {% endif %}
     <div class="row">
         <div class="col-lg-10 col-lg-offset-1">
              <div class="thumbnail">
@@ -10,6 +17,30 @@
                     <p>{{ service.description }}</p>
                 </div>
             </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-8">
+        {% if not service.employee %}
+
+                {% for employee in employees %}
+                    <div class="col-lg-3">
+                        {{ employee.user.get_full_name }}<br/>
+                        {{ employee.service_count }}
+                        {% if request.user = service.user %}
+                            <a href="{% url 'works:order' %}?employee_id={{ employee.id }}&service_id={{ service.id }}&redirect_url={{ request.path }}">Нанять</a>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+                <div class="col-lg-3">
+                    {{ newbie.user.get_full_name }}<br/>
+                    {% if request.user = service.user %}
+                        <a href="{% url 'works:order' %}?employee_id={{ newbie.id }}&service_id={{ service.id }}&redirect_url={{ request.path }}">Нанять</a>
+                    {% endif %}
+                </div>
+        {% else %}
+            <h4>Исполнитель этого заказа <a href="{% url 'core:profile' service.employee.user.id %}">{{ service.employee.user.get_full_name }}</a></h4>
+        {% endif %}
         </div>
     </div>
 {% endblock %}

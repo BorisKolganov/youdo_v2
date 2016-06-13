@@ -1,36 +1,40 @@
 {% extends 'base.html' %}
 {% block title %}Профиль пользователья {{ user.get_full_name }}{% endblock %}
 {% block content %}
-    <div class="row">
-        <div class="col-lg-5">
-            <div class="well">
-                <div class="media">
-                  <div class="media-left">
+<div class="row">
+    <div class="col-lg-5">
+        <div class="well">
+            <div class="media">
+                <div class="media-left">
                     <a href="#">
-                      {% if user.avatar %}
-                        <img class="media-object" src="{{ user.avatar.url }}" width="100"/>
-                      {% endif %}
+                        {% if user.avatar %}
+                            <img class="media-object" src="{{ user.avatar.url }}" width="100"/>
+                        {% endif %}
                     </a>
-                  </div>
-                  <div class="media-body">
-                    <h4 class="media-heading">{{ user.get_full_name }}</h4>
-                      <h6>Имя: {{ user.first_name }}</h6>
-                      <h6>Фамилия: {{ user.last_name }}</h6>
-                      <h6>e-mail: {{ user.email }}</h6>
-                  </div>
                 </div>
-                {% if request.user.id = user.id %}
-                    Это ваш профиль<br />
-                    {% if request.user.employee %}
-                        У вас уже есть профиль исполнителя
-                        <a class="btn btn-primary" href="{% url 'works:update_employee' request.user.employee.id %}">Изменить</a>
-                    {% else %}
-                        <a class="btn btn-primary" href="{% url 'works:create_employee' %}">Создать профиль исполнителя</a>
+                <div class="media-body">
+                    <h4 class="media-heading">{{ user.get_full_name }}</h4>
+                    <h5>Имя: {{ user.first_name }}</h5>
+                    <h5>Фамилия: {{ user.last_name }}</h5>
+                    <h5>e-mail: {{ user.email }}</h5>
+                    {% if request.user.id = user.id %}
+                        {% if user.employee %}
+                            <h5>О себе: {{ user.employee.about }}</h5>
+                            <h5>Умения: {{ user.employee.skills }}</h5>
+                            <h5>Опыт: {{ user.employee.experience }}</h5>
+                            <h5>Виды работ: {% for servicetype in user.employee.servicetype_set.all %}
+                                {{ servicetype.name }}{% if not forloop.last %},{% endif %}
+                            {% endfor %}</h5>
+                            <a class="btn btn-primary" href="{% url 'works:update_employee' user.employee.id %}">Изменить</a>
+                        {% else %}
+                            <a class="btn btn-primary" href="{% url 'works:create_employee' %}">Создать профиль исполнителя</a>
+                        {% endif %}
                     {% endif %}
-                {% endif %}
+                    <a href="{% url 'works:my_services' %}">Мои заказы</a>
+                    <a href="{% url 'works:my_empl_services' %}">Мои работы</a>
+                </div>
             </div>
         </div>
     </div>
-
-
+</div>
 {% endblock %}

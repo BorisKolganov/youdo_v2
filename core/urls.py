@@ -8,5 +8,6 @@ urlpatterns = [
     url(r'^registration/', RegistrationView.as_view(), name='registration'),
     url(r'^logout/', LogoutView.as_view(), name='logout'),
     url(r'^login/', LoginView.as_view(), name='login'),
-    url(r'^profile/(?P<pk>\d+)/', ProfileView.as_view(), name='profile')
+    url(r'^profile/(?P<pk>\d+)/', ProfileView.as_view(), name='profile'),
+
 ]
