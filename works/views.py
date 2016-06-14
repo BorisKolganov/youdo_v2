@@ -63,7 +63,7 @@ class ServiceView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super(ServiceView, self).get_context_data(**kwargs)
-        context['employees'] = Employee.objects.filter(servicetype=self.object.type).annotate(service_count=Count('service')).order_by('service_count')[:2]
+        context['employees'] = Employee.objects.filter(servicetype=self.object.type).annotate(service_count=Count('service')).order_by('service_count')[:3]
         context['newbie'] = Employee.objects.filter(servicetype=self.object.type).order_by('?')[0]
         return context
 

@@ -9,6 +9,13 @@ class Employee(models.Model):
     skills = models.TextField(verbose_name=u'Умения')
     experience = models.TextField(verbose_name=u'Опыт')
 
+    class Meta:
+        verbose_name = u'Испольнитель'
+        verbose_name_plural = u'Исполнители'
+
+    def __unicode__(self):
+        return self.user.get_full_name()
+
 
 class ServiceType(models.Model):
     name = models.CharField(max_length=250, verbose_name=u'Название')
@@ -31,9 +38,23 @@ class Service(models.Model):
     avatar = models.ImageField(verbose_name=u'Аватар', null=True, upload_to='avatars', default='avatars/default.jpg')
     type = models.ForeignKey('works.ServiceType', verbose_name=u'Тип услуги')
 
+    class Meta:
+        verbose_name = u'Услуга'
+        verbose_name_plural = u'Услуги'
+
+    def __unicode__(self):
+        return self.name
+
 
 class Comment(models.Model):
     user = models.ForeignKey('core.User', verbose_name=u'Пользователь')
     service = models.ForeignKey('works.Service', verbose_name=u'услуга')
     text = models.TextField(verbose_name=u'Текст комментария')
     rating = models.SmallIntegerField(verbose_name=u'Оценка')
+
+    class Meta:
+        verbose_name = u'Комментарий'
+        verbose_name_plural = u'Комментарии'
+
+    def __unicode__(self):
+        return self.text[:50]
